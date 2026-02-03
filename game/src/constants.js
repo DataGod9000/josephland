@@ -1,4 +1,4 @@
-export const scaleFactor = 4;
+export const scaleFactor = 3;
 
 export const dialogueData = {
   pc: `This is my PC. I work mostly in JavaScript/TypeScript these days.

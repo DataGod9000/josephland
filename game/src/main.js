@@ -15,12 +15,12 @@ k.loadSprite("spritesheet", "./spritesheet.png", {
   },
 });
 
-k.loadSprite("map", "./map.png");
+k.loadSprite("map", "./joseph_island.png");
 
 k.setBackground(k.Color.fromHex("#311047"));
 
 k.scene("main", async () => {
-  const mapData = await (await fetch("./map.json")).json();
+  const mapData = await (await fetch("./joseph_island.json")).json();
   const layers = mapData.layers;
 
   const map = k.add([k.sprite("map"), k.pos(0), k.scale(scaleFactor)]);
