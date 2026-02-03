@@ -7,7 +7,8 @@
     {
       "name": "spawnpoints",
       "objects": [
-        { "name": "player", "x": 247.53, "y": 247.17 }
+        { "name": "player", "x": 247.53, "y": 247.17 },
+        { "name": "player_exit", "x": 235.9, "y": 165 }
       ]
     },
     {

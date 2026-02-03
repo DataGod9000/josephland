@@ -4,75 +4,52 @@
   "infinite": false,
   "layers": [
     {
-      "draworder": "topdown",
-      "id": 6,
       "name": "boundaries",
       "objects": [
-        { "height": 16, "id": 3, "name": "", "rotation": 0, "type": "", "visible": true, "width": 256, "x": 64, "y": 64 },
-        { "height": 128, "id": 4, "name": "", "rotation": 0, "type": "", "visible": true, "width": 16, "x": 48, "y": 64 },
-        { "height": 16, "id": 5, "name": "", "rotation": 0, "type": "", "visible": true, "width": 80, "x": 48, "y": 192 },
-        { "height": 16, "id": 6, "name": "", "rotation": 0, "type": "", "visible": true, "width": 192, "x": 144, "y": 192 },
-        { "height": 128, "id": 7, "name": "", "rotation": 0, "type": "", "visible": true, "width": 16, "x": 320, "y": 64 },
-        { "height": 16, "id": 8, "name": "", "rotation": 0, "type": "", "visible": true, "width": 80, "x": 64, "y": 80 },
-        { "height": 16, "id": 9, "name": "", "rotation": 0, "type": "", "visible": true, "width": 16, "x": 144, "y": 80 },
-        { "height": 16, "id": 10, "name": "", "rotation": 0, "type": "", "visible": true, "width": 48, "x": 96, "y": 96 },
-        { "height": 16, "id": 11, "name": "", "rotation": 0, "type": "", "visible": true, "width": 32, "x": 96, "y": 144 },
-        { "height": 16, "id": 12, "name": "", "rotation": 0, "type": "", "visible": true, "width": 32, "x": 80, "y": 176 },
-        { "height": 16, "id": 13, "name": "", "rotation": 0, "type": "", "visible": true, "width": 112, "x": 208, "y": 80 },
-        { "height": 16, "id": 14, "name": "", "rotation": 0, "type": "", "visible": true, "width": 16, "x": 208, "y": 96 },
-        { "height": 16, "id": 17, "name": "", "rotation": 0, "type": "", "visible": true, "width": 16, "x": 256, "y": 96 },
-        { "height": 16, "id": 18, "name": "", "rotation": 0, "type": "", "visible": true, "width": 32, "x": 288, "y": 96 },
-        { "height": 16, "id": 19, "name": "", "rotation": 0, "type": "", "visible": true, "width": 32, "x": 256, "y": 128 },
-        { "height": 32, "id": 20, "name": "", "rotation": 0, "type": "", "visible": true, "width": 16, "x": 304, "y": 160 },
-        { "height": 16, "id": 21, "name": "", "rotation": 0, "type": "", "visible": true, "width": 32, "x": 272, "y": 176 },
-        { "height": 16, "id": 22, "name": "", "rotation": 0, "type": "", "visible": true, "width": 16, "x": 224, "y": 176 },
-        { "height": 16, "id": 25, "name": "", "rotation": 0, "type": "", "visible": true, "width": 16, "x": 64, "y": 96 },
-        { "height": 16, "id": 26, "name": "", "rotation": 0, "type": "", "visible": true, "width": 48, "x": 160, "y": 144 },
-        { "height": 64, "id": 27, "name": "", "rotation": 0, "type": "", "visible": true, "width": 16, "x": 160, "y": 80 },
-        { "height": 64, "id": 28, "name": "", "rotation": 0, "type": "", "visible": true, "width": 16, "x": 192, "y": 80 },
-        { "height": 16, "id": 34, "name": "", "rotation": 0, "type": "", "visible": true, "width": 16, "x": 128, "y": 208 },
-        { "height": 16, "id": 35, "name": "", "rotation": 0, "type": "", "visible": true, "width": 16, "x": 96, "y": 128 },
-        { "height": 16, "id": 36, "name": "", "rotation": 0, "type": "", "visible": true, "width": 16, "x": 112, "y": 128 },
-        { "height": 6, "id": 42, "name": "", "rotation": 0, "type": "", "visible": true, "width": 11, "x": 98.6, "y": 168.87 },
-        { "height": 6, "id": 43, "name": "", "rotation": 0, "type": "", "visible": true, "width": 10.35, "x": 98.6, "y": 169.41 }
-      ],
-      "opacity": 1,
-      "type": "objectgroup",
-      "visible": true,
-      "x": 0,
-      "y": 0
+        { "x": 64, "y": 64, "width": 256, "height": 16 },
+        { "x": 48, "y": 64, "width": 16, "height": 128 },
+        { "x": 48, "y": 192, "width": 80, "height": 16 },
+        { "x": 144, "y": 192, "width": 192, "height": 16 },
+        { "x": 320, "y": 64, "width": 16, "height": 128 },
+        { "x": 64, "y": 80, "width": 80, "height": 16 },
+        { "x": 144, "y": 80, "width": 16, "height": 16 },
+        { "x": 96, "y": 96, "width": 48, "height": 16 },
+        { "x": 96, "y": 144, "width": 32, "height": 14 },
+        { "x": 80, "y": 176, "width": 32, "height": 16 },
+        { "x": 208, "y": 80, "width": 112, "height": 16 },
+        { "x": 208, "y": 96, "width": 16, "height": 16 },
+        { "x": 256, "y": 96, "width": 16, "height": 16 },
+        { "x": 288, "y": 96, "width": 32, "height": 16 },
+        { "x": 256, "y": 128, "width": 32, "height": 16 },
+        { "x": 304, "y": 160, "width": 16, "height": 32 },
+        { "x": 272, "y": 176, "width": 32, "height": 16 },
+        { "x": 224, "y": 176, "width": 16, "height": 16 },
+        { "x": 64, "y": 96, "width": 16, "height": 16 },
+        { "x": 160, "y": 144, "width": 48, "height": 16 },
+        { "x": 160, "y": 80, "width": 16, "height": 64 },
+        { "x": 192, "y": 80, "width": 16, "height": 64 },
+        { "x": 128, "y": 208, "width": 16, "height": 16 },
+        { "x": 96, "y": 128, "width": 16, "height": 16 },
+        { "x": 112, "y": 128, "width": 16, "height": 16 },
+        { "x": 97.78, "y": 168.6, "width": 12, "height": 7 }
+      ]
     },
     {
-      "draworder": "topdown",
-      "id": 7,
       "name": "spawnpoints",
       "objects": [
-        {
-          "height": 0,
-          "id": 32,
-          "name": "player",
-          "point": true,
-          "rotation": 0,
-          "type": "",
-          "visible": true,
-          "width": 0,
-          "x": 136.46,
-          "y": 199.65
-        }
-      ],
-      "opacity": 1,
-      "type": "objectgroup",
-      "visible": true,
-      "x": 0,
-      "y": 0
+        { "name": "player", "x": 135.64, "y": 180 }
+      ]
+    },
+    {
+      "name": "exithouse",
+      "objects": [
+        { "x": 128, "y": 200, "width": 24, "height": 24 }
+      ]
     }
   ],
   "orientation": "orthogonal",
-  "renderorder": "right-down",
-  "tiledversion": "1.11.2",
   "tileheight": 16,
   "tilewidth": 16,
   "type": "map",
-  "version": "1.10",
   "width": 27
 }
