@@ -1,0 +1,7 @@
+{
+  "name": "python-project",
+  "private": true,
+  "scripts": {
+    "game": "npm run dev --prefix game"
+  }
+}
