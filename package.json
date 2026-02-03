@@ -1,5 +1,5 @@
 {
-  "name": "python-project",
+  "name": "joseph_2D_game_portfolio_website",
   "private": true,
   "scripts": {
     "game": "npm run dev --prefix game"

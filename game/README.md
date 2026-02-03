@@ -1,8 +1,6 @@
-# Developer portfolio that's a 2D game
+# Joseph's 2D game portfolio
 
-Inspired by the many creative 3D developer portfolios, I create one that's 2D instead.
-This is meant as a template that you can use to build your own. It works on both desktop
-and mobile.
+A 2D game portfolio (inspired by 3D dev portfolios). Click to move, explore the room. Works on desktop and mobile.
 
 ![A screenshot of the project](./developerportfoliothumbnail.png)
 

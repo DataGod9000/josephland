@@ -1,47 +1,30 @@
-# ✨ Tic Tac Toe
+# Joseph's 2D game portfolio
 
-A little terminal Tic Tac Toe game for two players — play with a friend! 🎮
+2D portfolio/game (Kaboom.js): explore a room, click to move, interact with objects.
 
+## Run the 2D game
+
+From the project root:
+
+```bash
+npm run game
 ```
-  a  b  c
-  d  e  f
-  g  h  i
+
+(First time: `cd game` then `npm install`, then run `npm run game` again.)
+
+Or from the game folder:
+
+```bash
+cd game
+npm install
+npm run dev
 ```
 
-Type a letter (**a**–**i**) to place your X or O. That's it!
+Then open the URL shown (e.g. http://localhost:5173).
 
 ---
 
-## 🚀 Quick start
+## Also in this repo
 
-1. **Run the game**
-   ```bash
-   python3 main.py
-   ```
-
-2. **Take turns**  
-   When it's your turn, type one letter (a–i) and press Enter. Empty cells show their letter; taken cells show X or O.
-
-3. **Win (or draw)**  
-   Get three in a row (across, down, or diagonal) to win. If the board fills up with no winner, it's a draw!
-
----
-
-## ⌨️ Controls
-
-| Key | Action |
-|-----|--------|
-| **a–i** | Place your mark in that cell |
-| **Ctrl+C** | Quit the game |
-
----
-
-## 📁 What's in here
-
-- `main.py` — the whole game (board, moves, win check, letter input)
-
-No extra packages needed — just Python 3.
-
----
-
-Have fun! 🧡
+- **Tic Tac Toe** (terminal): `python3 main.py` — letter input a–i, two players.
+- **`game/`** — the 2D portfolio game (map, boundaries, spawn from Tiled).
