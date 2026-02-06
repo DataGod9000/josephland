@@ -19,6 +19,8 @@ k.loadSprite("island_map", "./joseph_island.png");
 k.loadSprite("room_map", "./map.png");
 k.loadSound("bgm", "./background_music.mp3");
 k.loadSound("grass_walk", "./grass_walking.m4a");
+k.loadSound("door_open", "./door_open.m4a");
+k.loadSound("floor_walk", "./floor_walk.m4a");
 
 k.setBackground(k.Color.fromHex("#311047"));
 
@@ -260,7 +262,7 @@ k.scene("island", async (opts = {}) => {
   if (loadingEl) loadingEl.style.display = "none";
   if (!window.__bgmStarted) {
     window.__bgmStarted = true;
-    k.play("bgm", { loop: true, volume: 0.4 });
+    k.play("bgm", { loop: true, volume: 0.48 });
   }
   const useExitSpawn = opts.useExitSpawn === true;
   const mapData = await (await fetch("./joseph_island.json")).json();
@@ -268,7 +270,10 @@ k.scene("island", async (opts = {}) => {
     mapData,
     "island_map",
     scaleFactor,
-    () => k.go("room"),
+    () => {
+      k.play("door_open", { volume: 1 });
+      k.go("room");
+    },
     null,
     useExitSpawn
   );
@@ -277,7 +282,7 @@ k.scene("island", async (opts = {}) => {
   k.onResize(() => setCamScale(k));
   addMovementAndCamera(player, {
     onStep: () => {
-      k.play("grass_walk", { volume: 1 });
+      k.play("grass_walk", { volume: 0.7 });
     },
   });
 });
@@ -289,12 +294,17 @@ k.scene("room", async () => {
     "room_map",
     scaleFactor,
     null,
-    () => k.go("island", { useExitSpawn: true })
+    () => {
+      k.play("door_open", { volume: 1 });
+      k.go("island", { useExitSpawn: true });
+    }
   );
 
   setCamScale(k);
   k.onResize(() => setCamScale(k));
-  addMovementAndCamera(player);
+  addMovementAndCamera(player, {
+    onStep: () => k.play("floor_walk", { volume: 0.7 }),
+  });
 });
 
 k.go("island");
