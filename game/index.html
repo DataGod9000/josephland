@@ -71,7 +71,41 @@
         flex-direction: column;
         color: rgb(238, 238, 238);
       }
+
+      #loading-screen {
+        position: fixed;
+        inset: 0;
+        background: #311047;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        color: rgb(238, 238, 238);
+      }
+      #loading-screen .loading-text {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+      #loading-screen .loading-bar-wrap {
+        width: 200px;
+        height: 8px;
+        background: rgba(255,255,255,0.2);
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      #loading-screen .loading-bar {
+        height: 100%;
+        width: 0%;
+        background: rgb(238, 238, 238);
+        border-radius: 4px;
+        transition: width 0.15s ease-out;
+      }
     </style>
+    <div id="loading-screen">
+      <span class="loading-text">Loading...</span>
+      <div class="loading-bar-wrap"><div class="loading-bar" id="loading-bar"></div></div>
+    </div>
     <div id="app">
       <div>
         <p class="note">Tap/Click around to move</p>

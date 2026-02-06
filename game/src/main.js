@@ -17,6 +17,7 @@ k.loadSprite("spritesheet", "./spritesheet.png", {
 
 k.loadSprite("island_map", "./joseph_island.png");
 k.loadSprite("room_map", "./map.png");
+k.loadSound("bgm", "./background_music.mp3");
 
 k.setBackground(k.Color.fromHex("#311047"));
 
@@ -31,7 +32,7 @@ function addPlayer(map, scaleFactor) {
     k.pos(),
     k.scale(scaleFactor),
     {
-      speed: 250,
+      speed: 125,
       direction: "down",
       isInDialogue: false,
     },
@@ -235,6 +236,12 @@ function addMovementAndCamera(player) {
 }
 
 k.scene("island", async (opts = {}) => {
+  const loadingEl = document.getElementById("loading-screen");
+  if (loadingEl) loadingEl.style.display = "none";
+  if (!window.__bgmStarted) {
+    window.__bgmStarted = true;
+    k.play("bgm", { loop: true, volume: 0.4 });
+  }
   const useExitSpawn = opts.useExitSpawn === true;
   const mapData = await (await fetch("./joseph_island.json")).json();
   const { player } = setupScene(
