@@ -73,12 +73,9 @@ function setupScene(mapData, mapSpriteName, scaleFactor, onEnterhouse = null, on
             else if (player.direction === "up") player.play("idle-up");
             else player.play("idle-side");
             player.isInDialogue = true;
-            window.__ignoreMovementUntilKeyRelease = true;
             displayDialogue(
               dialogueData[boundary.name],
-              () => {
-                player.isInDialogue = false;
-              }
+              () => (player.isInDialogue = false)
             );
           });
         }
@@ -126,7 +123,9 @@ function setupScene(mapData, mapSpriteName, scaleFactor, onEnterhouse = null, on
           obj.name,
         ]);
         const triggerName = obj.name;
+        const triggerX = obj.x;
         const triggerY = obj.y;
+        const triggerW = w;
         const triggerH = h;
         const noEngageFromTop = triggerName === "Janet" || triggerName === "wenzheng" || triggerName === "mom" || triggerName === "dad" || triggerName === "shelves";
         player.onCollide(triggerName, () => {
@@ -137,14 +136,23 @@ function setupScene(mapData, mapSpriteName, scaleFactor, onEnterhouse = null, on
           }
           if (noEngageFromTop) {
             const triggerCenterYWorld = (map.pos.y + (triggerY + triggerH * 0.5)) * scaleFactor;
-            if (player.pos.y < triggerCenterYWorld) return;
+            const triggerCenterXWorld = (map.pos.x + (triggerX + triggerW * 0.5)) * scaleFactor;
+            const fromFront = player.pos.y >= triggerCenterYWorld;
+            if (triggerName === "Janet" || triggerName === "dad") {
+              const fromRight = player.pos.x >= triggerCenterXWorld;
+              if (!fromFront && !fromRight) return;
+            } else if (triggerName === "mom") {
+              const fromLeft = player.pos.x <= triggerCenterXWorld;
+              if (!fromFront && !fromLeft) return;
+            } else {
+              if (!fromFront) return;
+            }
           }
           player.vel = k.vec2(0, 0);
           if (player.direction === "down") player.play("idle-down");
           else if (player.direction === "up") player.play("idle-up");
           else player.play("idle-side");
           player.isInDialogue = true;
-          window.__ignoreMovementUntilKeyRelease = true;
           displayDialogue(dialogueData[triggerName], () => {
             player.isInDialogue = false;
             if (dialogueCooldownSeconds > 0) window.__dialogueCooldowns[triggerName] = k.time();
@@ -207,7 +215,6 @@ function addMovementAndCamera(player, options = {}) {
 
   k.onMouseDown((mouseBtn) => {
     if (mouseBtn !== "left" || player.isInDialogue) return;
-
     isMoving = true;
     const worldMousePos = k.toWorld(k.mousePos());
     player.moveTo(worldMousePos, player.speed);
@@ -265,26 +272,10 @@ function addMovementAndCamera(player, options = {}) {
     player.play("idle-side");
   }
 
-  k.onMouseRelease(() => {
-    stopAnims();
-    if (!k.isKeyDown("right") && !k.isKeyDown("left") && !k.isKeyDown("up") && !k.isKeyDown("down")) {
-      window.__ignoreMovementUntilKeyRelease = false;
-    }
-  });
-  k.onKeyRelease((key) => {
-    stopAnims();
-    if (!k.isKeyDown("right") && !k.isKeyDown("left") && !k.isKeyDown("up") && !k.isKeyDown("down")) {
-      window.__ignoreMovementUntilKeyRelease = false;
-    }
-  });
+  k.onMouseRelease(stopAnims);
+  k.onKeyRelease(stopAnims);
 
   k.onKeyDown((key) => {
-    if (window.__ignoreMovementUntilKeyRelease) {
-      if (!k.isKeyDown("right") && !k.isKeyDown("left") && !k.isKeyDown("up") && !k.isKeyDown("down")) {
-        window.__ignoreMovementUntilKeyRelease = false;
-      }
-      return;
-    }
     const keyMap = [
       k.isKeyDown("right"),
       k.isKeyDown("left"),

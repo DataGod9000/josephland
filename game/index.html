@@ -70,6 +70,10 @@
         display: flex;
         flex-direction: column;
         color: rgb(238, 238, 238);
+        background: rgba(0, 0, 0, 0.75);
+        padding: 0.35rem 0.6rem;
+        border-radius: 4px;
+        margin: 0;
       }
 
       #loading-screen {
@@ -105,7 +109,7 @@
       #tap-to-start {
         position: fixed;
         inset: 0;
-        background: rgba(49, 16, 71, 0.85);
+        background: rgba(49, 16, 71, 0.92);
         display: none;
         flex-direction: column;
         align-items: center;
@@ -113,9 +117,33 @@
         z-index: 9998;
         color: rgb(238, 238, 238);
         cursor: pointer;
+        padding: 2rem;
+        box-sizing: border-box;
+      }
+      #tap-to-start .intro-card {
+        max-width: 32rem;
+        text-align: center;
+        line-height: 1.5;
+        margin-bottom: 2rem;
+      }
+      #tap-to-start .intro-card .intro-title {
+        font-size: 1.75rem;
+        margin-bottom: 1.25rem;
+        font-weight: bold;
+      }
+      #tap-to-start .intro-card .intro-body {
+        font-size: 1.1rem;
+        opacity: 0.95;
+      }
+      #tap-to-start .intro-card .intro-body p {
+        margin: 0 0 0.75rem 0;
+      }
+      #tap-to-start .intro-card .intro-body p:last-child {
+        margin-bottom: 0;
       }
       #tap-to-start .tap-text {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
+        opacity: 0.9;
       }
     </style>
     <div id="loading-screen">
@@ -123,11 +151,18 @@
       <div class="loading-bar-wrap"><div class="loading-bar" id="loading-bar"></div></div>
     </div>
     <div id="tap-to-start" aria-label="Tap or click to start">
+      <div class="intro-card">
+        <p class="intro-title">Welcome to Joseph Land.</p>
+        <div class="intro-body">
+          <p>This is what happens when you give a determined person WiFi and no adult supervision.</p>
+          <p>Explore boldly and, if you're a hirer, end this character's (me) unemployment arc.</p>
+        </div>
+      </div>
       <span class="tap-text">Tap or click to start</span>
     </div>
     <div id="app">
       <div>
-        <p class="note">Tap/Click around to move</p>
+        <p class="note">WASD / Click / Tap to move</p>
 
         <div id="textbox-container" style="display: none">
           <div id="textbox">
