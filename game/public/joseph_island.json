@@ -18,6 +18,17 @@
       ]
     },
     {
+      "name": "dialogue_triggers",
+      "objects": [
+        { "name": "into_slime", "x": 208.99, "y": 211.05, "width": 14.87, "height": 12.8 },
+        { "name": "wenzheng", "x": 113.58, "y": 162.32, "width": 12.8, "height": 13.22 },
+        { "name": "Janet", "x": 144.97, "y": 159.43, "width": 14, "height": 16.52 },
+        { "name": "evan", "x": 128.45, "y": 146.21, "width": 14.04, "height": 13.63 },
+        { "name": "chest1", "x": 177.19, "y": 66.08, "width": 13.63, "height": 13.22 },
+        { "name": "chest2", "x": 335.79, "y": 81.37, "width": 15.28, "height": 13.22 }
+      ]
+    },
+    {
       "name": "boundaries",
       "objects": [
         { "x": 144, "y": 16, "width": 224, "height": 16 },
@@ -33,8 +44,6 @@
         { "x": 80, "y": 112, "width": 16, "height": 112 },
         { "x": 96, "y": 32, "width": 16, "height": 80 },
         { "x": 112, "y": 32, "width": 32, "height": 16 },
-        { "x": 112, "y": 128, "width": 32, "height": 16 },
-        { "x": 112, "y": 144, "width": 32, "height": 16 },
         { "x": 112, "y": 160, "width": 48, "height": 16 },
         { "x": 192, "y": 160, "width": 48, "height": 16 },
         { "x": 272, "y": 160, "width": 32, "height": 16 },
@@ -60,9 +69,7 @@
         { "x": 176, "y": 64, "width": 16, "height": 16 },
         { "x": 192, "y": 48, "width": 16, "height": 16 },
         { "x": 224, "y": 64, "width": 16, "height": 16 },
-        { "x": 128, "y": 96, "width": 16, "height": 16 },
         { "x": 160, "y": 128, "width": 16, "height": 16 },
-        { "x": 128, "y": 80, "width": 16, "height": 16 },
         { "x": 346.51, "y": 67.63, "width": 6.38, "height": 2.37 },
         { "x": 366.2, "y": 67.26, "width": 5.83, "height": 3.1 },
         { "x": 365.65, "y": 67.44, "width": 7.84, "height": 2.73 },
@@ -76,7 +83,9 @@
         { "x": 160, "y": 119.11, "width": 16, "height": 8.89 },
         { "x": 192, "y": 39.29, "width": 16, "height": 8.71 },
         { "x": 320, "y": 96, "width": 16, "height": 16 },
-        { "x": 208.58, "y": 210.23, "width": 14.87, "height": 13.22 }
+        { "x": 208.58, "y": 210.23, "width": 14.87, "height": 13.22 },
+        { "x": 117.3, "y": 113.17, "width": 21.48, "height": 29.74 },
+        { "x": 128.86, "y": 144.97, "width": 13.22, "height": 14.46 }
       ]
     }
   ]

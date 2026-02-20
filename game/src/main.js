@@ -12,6 +12,10 @@ k.loadSprite("spritesheet", "./spritesheet.png", {
     "walk-side": { from: 975, to: 978, loop: true, speed: 8 },
     "idle-up": 1014,
     "walk-up": { from: 1014, to: 1017, loop: true, speed: 8 },
+    // 2-frame “bob” so NPC looks like it’s moving (adjust from/to to match your sheet)
+    "npc-slime": { from: 858, to: 859, loop: true, speed: 4 },
+    "npc-kiki": { from: 780, to: 781, loop: true, speed: 4 },
+    "npc-moca": { from: 788, to: 789, loop: true, speed: 4 },
   },
 });
 
@@ -34,6 +38,7 @@ function addPlayer(map, scaleFactor) {
     k.anchor("center"),
     k.pos(),
     k.scale(scaleFactor),
+    k.z(1),
     {
       speed: 125,
       direction: "down",
@@ -43,7 +48,7 @@ function addPlayer(map, scaleFactor) {
   ]);
 }
 
-function setupScene(mapData, mapSpriteName, scaleFactor, onEnterhouse = null, onExithouse = null, useExitSpawn = false) {
+function setupScene(mapData, mapSpriteName, scaleFactor, onEnterhouse = null, onExithouse = null, useExitSpawn = false, dialogueCooldownSeconds = 0) {
   const layers = mapData.layers;
   const map = k.add([k.sprite(mapSpriteName), k.pos(0), k.scale(scaleFactor)]);
   const player = addPlayer(map, scaleFactor);
@@ -63,10 +68,17 @@ function setupScene(mapData, mapSpriteName, scaleFactor, onEnterhouse = null, on
 
         if (boundary.name) {
           player.onCollide(boundary.name, () => {
+            player.vel = k.vec2(0, 0);
+            if (player.direction === "down") player.play("idle-down");
+            else if (player.direction === "up") player.play("idle-up");
+            else player.play("idle-side");
             player.isInDialogue = true;
+            window.__ignoreMovementUntilKeyRelease = true;
             displayDialogue(
               dialogueData[boundary.name],
-              () => (player.isInDialogue = false)
+              () => {
+                player.isInDialogue = false;
+              }
             );
           });
         }
@@ -99,6 +111,46 @@ function setupScene(mapData, mapSpriteName, scaleFactor, onEnterhouse = null, on
         ]);
       }
       player.onCollide("exithouse", onExithouse);
+      continue;
+    }
+
+    if (layer.name === "dialogue_triggers") {
+      if (dialogueCooldownSeconds > 0 && !window.__dialogueCooldowns) window.__dialogueCooldowns = {};
+      for (const obj of layer.objects) {
+        if (!obj.name || !dialogueData[obj.name]) continue;
+        const w = Math.max(1, obj.width || 16);
+        const h = Math.max(1, obj.height || 16);
+        map.add([
+          k.area({ shape: new k.Rect(k.vec2(0), w, h) }),
+          k.pos(obj.x, obj.y),
+          obj.name,
+        ]);
+        const triggerName = obj.name;
+        const triggerY = obj.y;
+        const triggerH = h;
+        const noEngageFromTop = triggerName === "Janet" || triggerName === "wenzheng" || triggerName === "mom" || triggerName === "dad" || triggerName === "shelves";
+        player.onCollide(triggerName, () => {
+          if (player.isInDialogue) return;
+          if (dialogueCooldownSeconds > 0) {
+            const now = k.time();
+            if (now - (window.__dialogueCooldowns[triggerName] || 0) < dialogueCooldownSeconds) return;
+          }
+          if (noEngageFromTop) {
+            const triggerCenterYWorld = (map.pos.y + (triggerY + triggerH * 0.5)) * scaleFactor;
+            if (player.pos.y < triggerCenterYWorld) return;
+          }
+          player.vel = k.vec2(0, 0);
+          if (player.direction === "down") player.play("idle-down");
+          else if (player.direction === "up") player.play("idle-up");
+          else player.play("idle-side");
+          player.isInDialogue = true;
+          window.__ignoreMovementUntilKeyRelease = true;
+          displayDialogue(dialogueData[triggerName], () => {
+            player.isInDialogue = false;
+            if (dialogueCooldownSeconds > 0) window.__dialogueCooldowns[triggerName] = k.time();
+          });
+        });
+      }
       continue;
     }
 
@@ -139,6 +191,10 @@ function addMovementAndCamera(player, options = {}) {
   let lastStepTime = 0;
 
   k.onUpdate(() => {
+    if (player.isInDialogue) {
+      player.vel = k.vec2(0, 0);
+      return;
+    }
     k.camPos(player.worldPos().x, player.worldPos().y - 100);
     if (onStep && isMoving) {
       const now = k.time();
@@ -209,10 +265,26 @@ function addMovementAndCamera(player, options = {}) {
     player.play("idle-side");
   }
 
-  k.onMouseRelease(stopAnims);
-  k.onKeyRelease(stopAnims);
+  k.onMouseRelease(() => {
+    stopAnims();
+    if (!k.isKeyDown("right") && !k.isKeyDown("left") && !k.isKeyDown("up") && !k.isKeyDown("down")) {
+      window.__ignoreMovementUntilKeyRelease = false;
+    }
+  });
+  k.onKeyRelease((key) => {
+    stopAnims();
+    if (!k.isKeyDown("right") && !k.isKeyDown("left") && !k.isKeyDown("up") && !k.isKeyDown("down")) {
+      window.__ignoreMovementUntilKeyRelease = false;
+    }
+  });
 
   k.onKeyDown((key) => {
+    if (window.__ignoreMovementUntilKeyRelease) {
+      if (!k.isKeyDown("right") && !k.isKeyDown("left") && !k.isKeyDown("up") && !k.isKeyDown("down")) {
+        window.__ignoreMovementUntilKeyRelease = false;
+      }
+      return;
+    }
     const keyMap = [
       k.isKeyDown("right"),
       k.isKeyDown("left"),
@@ -259,9 +331,54 @@ function addMovementAndCamera(player, options = {}) {
 
 k.scene("island", async (opts = {}) => {
   const loadingEl = document.getElementById("loading-screen");
-  if (loadingEl) loadingEl.style.display = "none";
-
   const tapEl = document.getElementById("tap-to-start");
+  if (tapEl) tapEl.style.display = "none";
+
+  const useExitSpawn = opts.useExitSpawn === true;
+  const mapData = await (await fetch("./joseph_island.json")).json();
+  const { player } = setupScene(
+    mapData,
+    "island_map",
+    scaleFactor,
+    () => {
+      k.play("door_open", { volume: 1 });
+      k.go("room");
+    },
+    null,
+    useExitSpawn,
+    2
+  );
+
+  // NPCs: same spritesheet, 2-frame anim so they look like they’re moving
+  const npcAnims = {
+    into_slime: "npc-slime",
+  };
+  const triggersLayer = mapData.layers?.find((l) => l.name === "dialogue_triggers");
+  if (triggersLayer) {
+    for (const obj of triggersLayer.objects) {
+      const anim = npcAnims[obj.name];
+      if (!anim) continue;
+      const x = (obj.x + (obj.width || 0) / 2) * scaleFactor;
+      const y = (obj.y + (obj.height || 0) / 2) * scaleFactor;
+      k.add([
+        k.sprite("spritesheet", { anim }),
+        k.pos(x, y),
+        k.anchor("center"),
+        k.scale(scaleFactor),
+        k.z(0),
+      ]);
+    }
+  }
+
+  setCamScale(k);
+  k.onResize(() => setCamScale(k));
+  addMovementAndCamera(player, {
+    onStep: () => {
+      k.play("grass_walk", { volume: 0.7 });
+    },
+  });
+
+  if (loadingEl) loadingEl.style.display = "none";
   if (!window.__bgmStarted && tapEl) {
     tapEl.style.display = "flex";
     const startBgm = () => {
@@ -278,28 +395,6 @@ k.scene("island", async (opts = {}) => {
   } else if (window.__bgmStarted && tapEl) {
     tapEl.style.display = "none";
   }
-
-  const useExitSpawn = opts.useExitSpawn === true;
-  const mapData = await (await fetch("./joseph_island.json")).json();
-  const { player } = setupScene(
-    mapData,
-    "island_map",
-    scaleFactor,
-    () => {
-      k.play("door_open", { volume: 1 });
-      k.go("room");
-    },
-    null,
-    useExitSpawn
-  );
-
-  setCamScale(k);
-  k.onResize(() => setCamScale(k));
-  addMovementAndCamera(player, {
-    onStep: () => {
-      k.play("grass_walk", { volume: 0.7 });
-    },
-  });
 });
 
 k.scene("room", async () => {
@@ -312,8 +407,30 @@ k.scene("room", async () => {
     () => {
       k.play("door_open", { volume: 1 });
       k.go("island", { useExitSpawn: true });
-    }
+    },
+    null,
+    false,
+    0.4
   );
+
+  // Kiki and Moca sprites (2-frame bob) at their trigger positions
+  const roomNpcAnims = { kiki: "npc-kiki", moca: "npc-moca" };
+  const roomTriggers = mapData.layers?.find((l) => l.name === "dialogue_triggers");
+  if (roomTriggers) {
+    for (const obj of roomTriggers.objects) {
+      const anim = roomNpcAnims[obj.name];
+      if (!anim) continue;
+      const x = (obj.x + (obj.width || 0) / 2) * scaleFactor;
+      const y = (obj.y + (obj.height || 0) / 2) * scaleFactor;
+      k.add([
+        k.sprite("spritesheet", { anim }),
+        k.pos(x, y),
+        k.anchor("center"),
+        k.scale(scaleFactor),
+        k.z(0),
+      ]);
+    }
+  }
 
   setCamScale(k);
   k.onResize(() => setCamScale(k));
