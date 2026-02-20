@@ -1,19 +1,38 @@
-# How to deploy the project (on GitHub pages)
+# Deploy Joseph Land to the web (GitHub Pages)
 
-There are 2 methods.
+Your repo already has a workflow that builds and deploys the game. You only need to turn on GitHub Pages and point it at that workflow.
 
-## Method 1: Using Github Actions
+## One-time setup on GitHub
 
-1. Update `vite.config.js` base property to match the name of the repository. For example, `base: "/2d-portfolio-kaboom"`
+1. Open your repo: **https://github.com/DataGod9000/2D_game_portfolio_website**
+2. Go to **Settings** → **Pages** (left sidebar).
+3. Under **Build and deployment**:
+   - **Source:** choose **GitHub Actions** (not “Deploy from a branch”).
+4. Save. You don’t need to create a workflow; it’s already in the repo.
 
-2. Navigate to the repository settings on GitHub and configure GitHub pages to use GitHub Actions by creating a custom workflow. Read [this](https://vitejs.dev/guide/static-deploy#github-pages) for more info.
+## Deploy (automatic and manual)
 
-3. After setting up the custom workflow, go to the Actions tab within the repository. From there, select the workflow you created in step 2 and trigger the deployment process.
+- **Automatic:** Every push to `main` runs the workflow and deploys the latest build.
+- **Manual:** **Actions** tab → **Deploy to GitHub Pages** → **Run workflow** → **Run workflow**.
 
-4. The portfolio should now be live and accessible through GitHub pages.
+## Your live URL
 
-## Method 2: Using Another Repository
+After the first successful run:
 
-1. Run `npm run build`.
-2. Take the resulting content of the `dist` folder and put it in a new GitHub repository.
-3. Activate GitHub pages in your new repository's settings.
+**https://datagod9000.github.io/2D_game_portfolio_website/**
+
+(If your GitHub username is different, replace `datagod9000` with it.)
+
+## If you use a different repo name
+
+Edit `vite.config.js` and set `base` to your repo path:
+
+```js
+base: "/YOUR_REPO_NAME/",
+```
+
+Then redeploy (push to `main` or run the workflow again).
+
+## Using a custom domain (optional)
+
+In **Settings** → **Pages**, you can add a custom domain. Then set `base: "/"` in `vite.config.js` and redeploy.
